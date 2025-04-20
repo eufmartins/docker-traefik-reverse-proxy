@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+      - ./traefik/acme.json:/acme.json
+    restart: unless-stopped
+
+  site1:
+    build: ./site1
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.site1.rule=PathPrefix(`/site1`)"
+      - "traefik.http.routers.site1.entrypoints=websecure"
+      - "traefik.http.routers.site1.tls=true"
+      - "traefik.http.routers.site1.tls.certresolver=myresolver"
+      - "traefik.http.services.site1.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.site1-stripprefix.stripprefix.prefixes=/site1"
+      - "traefik.http.routers.site1.middlewares=site1-stripprefix"
+    restart: unless-stopped
+
+  site2:
+    build: ./site2
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.site2.rule=PathPrefix(`/site2`)"
+      - "traefik.http.routers.site2.entrypoints=websecure"
+      - "traefik.http.routers.site2.tls=true"
+      - "traefik.http.routers.site2.tls.certresolver=myresolver"
+      - "traefik.http.services.site2.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.site2-stripprefix.stripprefix.prefixes=/site2"
+      - "traefik.http.routers.site2.middlewares=site2-stripprefix"
+    restart: unless-stopped
