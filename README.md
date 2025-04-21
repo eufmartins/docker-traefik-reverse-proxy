@@ -12,8 +12,10 @@ LinkedIn: [Felipe Martins](https://linkedin.com/in/eufmartins)
 
 1. Clone o repositório:
 
+```
 git clone https://github.com/eufmartins/docker-traefik-reverse-proxy.git
 cd docker-traefik-reverse-proxy
+```
 
 
 2. Rode os containers com Docker Compose:
