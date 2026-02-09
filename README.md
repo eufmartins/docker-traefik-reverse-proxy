@@ -14,15 +14,17 @@ LinkedIn: [Felipe Martins](https://linkedin.com/in/eufmartins)
 
 ```
 git clone https://github.com/eufmartins/docker-traefik-reverse-proxy.git
+```
+```
 cd docker-traefik-reverse-proxy
 ```
 
 
 2. Rode os containers com Docker Compose:
 
-
-docker-compose up --build
-
+```
+docker compose up --build
+```
 
 3. Acesse no navegador:
 - Site 1: http://localhost/site1
